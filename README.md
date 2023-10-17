@@ -1,5 +1,5 @@
 # BipartiteNetworks_SAA
-This repository is intended to keep all R scripts related to Spectral Analysis on Bipartite Networks in Ecology
+This repository is provided to keep all R scripts related to Spectral Analysis Normalization on Bipartite Networks in Ecology
 
 ## Reproducibility
 ### Versions
@@ -23,7 +23,13 @@ purrr
 tidyr
 
 vegan
+
+### Repository
+As this work adds content to Javier García Algarra original  repositories Kcorebip and Spectnull, this repository provides a submodule for both.
+
+However, all the changes to those repositories are included in the spectull_changed directory (Kcorebip has not been modified). It is worth to mention that the integration with the Kcorebip module is transparent.
+
 ### Sources files
-All sources files contain the necessary functions collected from other libraries such that the code can be executed. Some functions have been modified, so use the ones provided.
+All sources files specifications within R scripts provide the necessary functions collected from other libraries. Some functions have been modified, so use the ones provided and avoid sourcing Spectnull original repository (it may work, but this submodule is not intended to change in the future).
 
 
