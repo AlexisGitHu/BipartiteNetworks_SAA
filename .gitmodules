@@ -1,0 +1,3 @@
+[submodule "kcorebip"]
+	path = kcorebip
+	url = https://github.com/jgalgarra/kcorebip.git
