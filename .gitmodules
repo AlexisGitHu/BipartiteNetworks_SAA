@@ -1,3 +1,6 @@
 [submodule "kcorebip"]
 	path = kcorebip
 	url = https://github.com/jgalgarra/kcorebip.git
+[submodule "spectnull"]
+	path = spectnull
+	url = https://github.com/jgalgarra/spectnull.git
