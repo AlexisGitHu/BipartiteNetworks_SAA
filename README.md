@@ -30,6 +30,10 @@ As this work adds content to Javier García Algarra original  repositories Kcore
 However, all the changes to those repositories are included in the spectull_changed directory (Kcorebip has not been modified). It is worth to mention that the integration with the Kcorebip module is transparent.
 
 ### Sources files
-All sources files specifications within R scripts provide the necessary functions collected from other libraries. Some functions have been modified, so use the ones provided and avoid sourcing Spectnull original repository (it may work, but this submodule is not intended to change in the future).
+All sources files specifications within R scripts provide the necessary functions collected from other libraries. Some functions have been modified, so use the ones provided and avoid sourcing Spectnull original repository (it may work, but this submodule is not intended to change in the future). 
+
+### Comments
+If you clone the repository and don't install the kcorebip package, it won't work.
+If you clone the repository and the kcorebip directory does not have as its name 'kcorebip' it may not work.
 
 
