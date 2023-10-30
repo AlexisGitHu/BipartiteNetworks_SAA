@@ -24,6 +24,8 @@ tidyr
 
 vegan
 
+Newest versions of the packages still work with the implementations but avoid them unless specified by kcorebip package installation.
+
 ### Repository
 As this work adds content to Javier García Algarra original  repositories Kcorebip and Spectnull, this repository provides a submodule for both.
 
