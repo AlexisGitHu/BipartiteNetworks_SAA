@@ -10,7 +10,7 @@ It is vital to mention that weighted networks and non-weighted need to be consid
 
 All functions to address these purposes can be found in the ```spectral_distance_code_trials.R``` which uses cran packages and two non-cran packages (kcorebip and spectull) following the results of J. G. Algarra.
 
-The script ```bipartite_graph_spectrum_NULL_random.R``` is not used, as the functions that were needed to execute the script above were separated into the files ```null_model_generation_functions.R``` and ```synthrade_nullmodel.R```. Both of them were extracted from the SPECTNULL repository of J. G. Algarra. ```synthrade_nullmodel.R``` is only used to generate the SYTR null model. 
+The script ```bipartite_graph_spectrum_NULL_random.R``` is not used, as the functions that were needed to execute the script above were separated into the files ```null_model_generation_functions.R``` and ```synthrade_nullmodel.R```. Both of them were extracted from the SPECTNULL repository of J. G. Algarra. Furthermore, ```synthrade_nullmodel.R``` is only used to generate the SYTR null model. 
 
 From this point on, the methods and their implementation will be addressed.
 
