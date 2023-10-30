@@ -27,10 +27,18 @@ vegan
 ### Repository
 As this work adds content to Javier García Algarra original  repositories Kcorebip and Spectnull, this repository provides a submodule for both.
 
-However, all the changes to those repositories are included in the spectull_changed directory (Kcorebip has not been modified). It is worth to mention that the integration with the Kcorebip module is transparent.
+However, all the changes to those repositories are included in the spectull_changed directory (Kcorebip has not been modified).
 
 ### Sources files
-All sources files specifications within R scripts provide the necessary functions collected from other libraries. Some functions have been modified, so use the ones provided and avoid sourcing Spectnull original repository (it may work, but this submodule is not intended to change in the future). 
+To execute the key calculations of the project, the only package that needs to be sourced or executed from terminal or using an IDE is ```spectral_distance_code_trials.R```. This will generate all the folders needed to save results and make calculations.
+
+### Kcorebip installation
+Even if source files are included as a submodule, the easiest way to install the package is using the following command in an R termianl or IDE:
+```R
+#remove.packages("kcorebip")
+#library("devtools")
+#install_github("jgalgarra/kcorebip")
+```
 
 ### Comments
 If you clone the repository and don't install the kcorebip package, it won't work.
