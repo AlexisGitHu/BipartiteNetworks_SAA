@@ -1,4 +1,4 @@
-# Instructions
+# Instructions to reproduce results
 
 # Brief description of idea
 
