@@ -19,11 +19,11 @@ From this point on, the methods and their implementation will be addressed.
 1. Boxplots generation with different normalization criteria. These criteria include:
     1. Min-Max normalization
         1. **By null model type – single network**. In these calculations, we only use the Min-Max criterion to normalize spectral distances across each single network. This holds that the maximum and minimum spectral distance is provided by the network analyzed.
-        1. The method to do the box-plots graphs with the distances normalized by this criterion is called 'min\_max\_normalization'.
-    2. **By maximum and minimum value across all null model types – single networks.** In these calculations, we also use the Min-Max criterion to normalize but we normalize the spectral distances of each network by the maximum and minimum value found across all networks and null model types.
-        1. The method to do the box-plots graphs with the distances normalized by this criterion is called 'min\_max\_normalization\_model\_independant'.
-    3. **By maximum and minimum value across all null model types – all networks**. In these calculations, we also use the Min-Max criterion to normalize but we normalize considering all spectral distances across all null model types among all networks.
-        1. The method to do the box-plots graphs with the distances normalized by this criterion is called 'min\_max\_normalization\_all\_distances'.
+            1. The method to do the box-plots graphs with the distances normalized by this criterion is called 'min\_max\_normalization'.
+        2. **By maximum and minimum value across all null model types – single networks.** In these calculations, we also use the Min-Max criterion to normalize but we normalize the spectral distances of each network by the maximum and minimum value found across all networks and null model types.
+            1. The method to do the box-plots graphs with the distances normalized by this criterion is called 'min\_max\_normalization\_model\_independant'.
+        3. **By maximum and minimum value across all null model types – all networks**. In these calculations, we also use the Min-Max criterion to normalize but we normalize considering all spectral distances across all null model types among all networks.
+            1. The method to do the box-plots graphs with the distances normalized by this criterion is called 'min\_max\_normalization\_all\_distances'.
     2. Bounds Normalization: in this case, we know, by definition, that the spectral distance between two matrices is the squared root of the differences squared of the sorted ascendant eigenvalues of those two matrices. As we are only considering bipartite networks, specifically Adjacency and Laplacian matrices, we can calculate analytically the spectral distance bounds for each type and normalize all distances by the upper and lower bounds.
         1. For each network analyzed, we must calculate these bounds in the same manner, this is done by calling the 'calculate\_bounds\_adjacency' for the bounds for Adjacency matrices and 'save\_parameters\_laplacian' for the Laplacian matrices.
         2. These bounds will vary depending on the networks given, therefore we must update those values till we reach the maximum and minimum among all the networks.
