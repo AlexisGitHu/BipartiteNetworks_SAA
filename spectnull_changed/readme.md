@@ -99,7 +99,7 @@ The null models used to generate the bipartite networks and their matrices to ca
 
 1. Weighted networks: the following null models are used to calculate from the original network the network to be compared.
     1. RND: Erdos-Renyi null model for bipartite weighted networks.
-    2. SYTR: stochastic generative model of world trade network based on the work published in [https://pubmed.ncbi.nlm.nih.gov/31811254/](https://pubmed.ncbi.nlm.nih.gov/31811254/).
+    2. SYTR: stochastic generative model of world trade network based on the work published in [A stochastic generative model of the World Trade Network](https://pubmed.ncbi.nlm.nih.gov/31811254/).
     3. Shuffle.
     4. VAZ.
     5. SWAP
