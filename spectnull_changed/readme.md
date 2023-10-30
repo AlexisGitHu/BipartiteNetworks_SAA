@@ -8,13 +8,21 @@ The generation of null models is addressed in J. G. Algarra “spectnull” repo
 From this point on, the methods and their implementation will be addressed.
 ## Methods
 1.	Boxplots generation with different normalization criteria. These criteria include:
+   
   a.	Min-Max normalization
+  
     i.	By null model type – single network. In these calculations, we only use the Min-Max criterion to normalize spectral distances across each single network. This holds that the maximum and minimum spectral distance is provided by the network analyzed.
+    
       1.	The method to do the box-plots graphs with the distances normalized by this criterion is called ‘min_max_normalization’. 
+      
     ii.	By maximum and minimum value across all null model types – single networks. In these calculations, we also use the Min-Max criterion to normalize but we normalize the spectral distances of each network by the maximum and minimum value found across all networks and null model types.
+    
       1.	The method to do the box-plots graphs with the distances normalized by this criterion is called ‘min_max_normalization_model_independant’.
+      
     iii.	By maximum and minimum value across all null model types – all networks. In these calculations, we also use the Min-Max criterion to normalize but we normalize considering all spectral distances across all null model types among all networks.
+    
       1.	The method to do the box-plots graphs with the distances normalized by this criterion is called ‘min_max_normalization_all_distances’.
+      
   b.	Bounds Normalization: in this case, we know, by definition, that the spectral distance between two matrices is the squared root of the differences squared of the sorted ascendant eigenvalues of those two matrices. As we are only considering bipartite networks, specifically Adjacency and Laplacian matrices, we can calculate analytically the spectral distance bounds for each type and normalize all distances by the upper and lower bounds.
     i.	For each network analyzed, we must calculate these bounds in the same manner, this is done by calling the ‘calculate_bounds_adjacency’ for the bounds for Adjacency matrices and ‘save_parameters_laplacian’ for the Laplacian matrices.
     ii.	These bounds will vary depending on the networks given, therefore we must update those values till we reach the maximum and minimum among all the networks.
@@ -32,7 +40,7 @@ From this point on, the methods and their implementation will be addressed.
   d.	Covariance Normalization: with this normalization happens the same as with IQR normalization, as eigenvalues from the covariance matrix represents variability among null model types.
     i.	In this context, it will have no sense to calculate this among all networks, as we want to calculate the variability with the covariance matrix of the network considering the random variables as the spectral distances vectors outputted by each null model.
     ii.	The method to calculate this is called ‘covariance_eigenvalues_normalization’.
-2.	Scatterplots of mean values of Adjacency and Laplacian spectral distances. This is done for non-weighted networks and for the weighted ones.
+3.	Scatterplots of mean values of Adjacency and Laplacian spectral distances. This is done for non-weighted networks and for the weighted ones.
   a.	MinMax II type normalization.
     i.	As a result of the boxplots obtained by all the normalization criteria, the only one who preserves the notion of geometric distance, is scale-free and keeps the non-normalized relative separation of the null models with the real network is the Min-Max II. 
     ii.	As a result, to compare which null model type generates the most closed to reality network, compared with the real one, we generate a scatterplot. This scatterplot confronts the mean values of the spectral distance of each network and each null model type of the Adjacency matrix and the Laplacian matrix.
@@ -41,14 +49,14 @@ From this point on, the methods and their implementation will be addressed.
     ii.	In this way, we can compute the scatterplots of the rates of variability by taking the mean of the rate of variability of the spectral distances of the Adjacency Matrix and the Laplacian Matrix.
     iii.	Following this way, we can see in an experimental way a more realistic approach on how the variability of the means is clustered without any assumption.
   c.	Both scatterplots are calculated using the same method ‘plot_clustering_spd_means’ by providing the name of the normalization wanted. Inside the method, the separation between the two types of networks is considered.
-3.	Histograms of mean values of Adjacency and Laplacian spectral distances.
+4.	Histograms of mean values of Adjacency and Laplacian spectral distances.
   a.	MinMax II type normalization.
     i.	To provide the hypothesis with more experimental data that supports it, we also provide the histograms of the means of the adjacency spectral distance and Laplacian spectral distance normalized by this criterion.
     ii.	These histograms agree with the clustered data as we can see trends on them for each null model type.
   b.	Covariance type normalization.
     i.	In the same way as before, covariance histograms also support the trend of the rate of variability of the means. 
   c.	All histograms are calculated using the same method ‘plot_means_histogram’ by providing the name of the normalization wanted. Inside the method, the separation between the two types of networks is considered.
-4.	Null models networks generation: all this work is based on the functions provided by the package ‘spectnull’ from J.G. Algarra repository.
+5.	Null models networks generation: all this work is based on the functions provided by the package ‘spectnull’ from J.G. Algarra repository.
 ## Global variables
 There are mainly four key global variables that will hold all the spectral distances. These four variables are explained below:
 1.	Data lists type: both lists hold the spectral distances saved by null model type. These lists are refreshed per network, so they will only contain the spectral distances associated with each null model type of one network at a time.
