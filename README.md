@@ -35,9 +35,9 @@ To execute the key calculations of the project, the only package that needs to b
 ### Kcorebip installation
 Even if source files are included as a submodule, the easiest way to install the package is using the following command in an R termianl or IDE:
 ```R
-#remove.packages("kcorebip")
-#library("devtools")
-#install_github("jgalgarra/kcorebip")
+remove.packages("kcorebip")
+library("devtools")
+install_github("jgalgarra/kcorebip")
 ```
 
 ### Comments
