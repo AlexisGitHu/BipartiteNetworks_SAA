@@ -8,7 +8,9 @@ Therefore, to address the necessity of this comparison when working with biparti
 
 It is vital to mention that weighted networks and non-weighted need to be consider as different cases. Otherwise, comparisons will not yield accurate results when comparing different null model generated bipartite networks. Also, spectral distances between Laplacian matrices and Adjacency matrices should be consider different cases for the same reason.
 
-All functions to address these purposes can be found in the "spectral_distance_code_trials.R" which uses cran packages and two non-cran packages (kcorebip and spectull) following the results of J. G. Algarra [cite].
+All functions to address these purposes can be found in the ```spectral_distance_code_trials.R``` which uses cran packages and two non-cran packages (kcorebip and spectull) following the results of J. G. Algarra.
+
+The script ```bipartite_graph_spectrum_NULL_random.R``` is not used, as the functions that were needed to execute the script above were separated into the files ```null_model_generation_functions.R``` and ```synthrade_nullmodel.R```. The last of one is only used to generate the SYTR null model.
 
 The generation of null models is addressed in J. G. Algarra "spectnull" repository. Therefore, this will be needed to execute the script mentioned above.
 
