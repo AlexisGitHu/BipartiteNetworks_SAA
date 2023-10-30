@@ -72,7 +72,7 @@ There are mainly four key global variables that will hold all the spectral dista
 
 # Data
 
-All data has been collected from "The web of life: ecological database". Specifically, all pollination networks have been retrieved and the ones that are considered radically different from the rest, have been removed.
+All data has been collected from "The web of life: ecological database" which can be found at this URL: [web of life (https://arxiv.org/abs/1403.2575)]. Specifically, all pollination networks have been retrieved and the ones that are considered radically different from the rest, have been removed.
 
 The script takes all this networks as '.csv' files that can be found in the following path: "/spectnull\_changed/data".
 
