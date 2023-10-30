@@ -1,7 +1,7 @@
 # BipartiteNetworks_SAA
 This repository is provided to keep all R scripts related to Spectral Analysis Normalization on Bipartite Networks in Ecology
 
-## Reproducibility
+## Packages
 ### Versions
 All of the following libraries with their version would be needed to execute the code in "spectral_distance_code_trials". If no version is specified, then its the latest version at the moment:
 dplyr 
