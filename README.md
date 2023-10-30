@@ -5,7 +5,7 @@ This repository is provided to keep all R scripts related to Spectral Analysis N
 ### Versions
 All of the following libraries with their version would be needed to execute the code in "spectral_distance_code_trials". If no version is specified, then its the latest version at the moment:
 dplyr 
-
+```
 forcats 
 
 ggplot2==3.4.2
@@ -23,7 +23,7 @@ purrr
 tidyr
 
 vegan
-
+```
 Newest versions of the packages still work with the implementations but avoid them unless specified by kcorebip package installation.
 
 ### Repository
