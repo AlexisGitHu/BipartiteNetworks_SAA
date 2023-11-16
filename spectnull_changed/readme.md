@@ -49,7 +49,7 @@ From this point on, the methods and their implementation will be addressed.
         1. One could argue that those mean values are not representative as we do not know the variability of the data neither we can assure it has a normal distribution as the histograms are asymmetric. To account for that, we use the covariance normalization.
         2. In this way, we can compute the scatterplots of the rates of variability by taking the mean of the rate of variability of the spectral distances of the Adjacency Matrix and the Laplacian Matrix.
         3. Following this way, we can see in an experimental way a more realistic approach on how the variability of the means is clustered without any assumption.
-        4. This final calculation is done with the ```get_covariance_normalized_values`()```.
+        4. This final calculation is done with the ```get_covariance_normalized_values()```.
     3. Both scatterplots are calculated using the same method ```plot_clustering_spd_means()``` by providing the name of the normalization wanted. Inside the method, the separation between the two types of networks is considered.
 3. Histograms of mean values of Adjacency and Laplacian spectral distances.
     1. MinMax II type normalization.
