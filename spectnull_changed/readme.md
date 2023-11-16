@@ -43,12 +43,13 @@ From this point on, the methods and their implementation will be addressed.
         2. The method to calculate this is called ```covariance_eigenvalues_normalization()```.
 2. Scatterplots of mean values of Adjacency and Laplacian spectral distances. This is done for non-weighted networks and for the weighted ones.
     1. MinMax II type normalization.
-        1. As a result of the boxplots obtained by all the normalization criteria, the only one who preserves the notion of geometric distance, is scale-free and keeps the non-normalized relative separation of the null models with the real network is the Min-Max II.
+        1. As a result of the boxplots obtained by all the normalization criteria, the only one who preserves the notion of geometric distance, is scale-free and keeps the non-normalized relative separation of the null models with the real network is the Min-Max II. This final calculation is generated with the ```get_minmax_normalized_values_models()``` function.
         2. As a result, to compare which null model type generates the most closed to reality network, compared with the real one, we generate a scatterplot. This scatterplot confronts the mean values of the spectral distance of each network and each null model type of the Adjacency matrix and the Laplacian matrix.
     2. Covariance type normalization.
         1. One could argue that those mean values are not representative as we do not know the variability of the data neither we can assure it has a normal distribution as the histograms are asymmetric. To account for that, we use the covariance normalization.
         2. In this way, we can compute the scatterplots of the rates of variability by taking the mean of the rate of variability of the spectral distances of the Adjacency Matrix and the Laplacian Matrix.
         3. Following this way, we can see in an experimental way a more realistic approach on how the variability of the means is clustered without any assumption.
+        4. This final calculation is done with the ```get_covariance_normalized_values`()```.
     3. Both scatterplots are calculated using the same method ```plot_clustering_spd_means()``` by providing the name of the normalization wanted. Inside the method, the separation between the two types of networks is considered.
 3. Histograms of mean values of Adjacency and Laplacian spectral distances.
     1. MinMax II type normalization.
