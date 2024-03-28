@@ -493,13 +493,15 @@ plot_box_diagrams <- function(plot_filename="",data_lists,network)
     gg<-ggplot(spectral_data, aes(x = Model, y = SpectralDistance, fill = Model)) +
       geom_boxplot() +
       labs(x = "Model Types", y = "Spectral Distance", title = paste0("Box Plot of Spectral Distances ", network)) +
-      scale_fill_manual(values = color_palette) +
+      scale_fill_manual(values = color_palette_no_info) +
       theme_minimal()+theme(
         panel.background = element_blank(),   # Remove panel background color
         plot.background = element_rect(fill = "white"),  # Set plot background color
         legend.background = element_rect(fill = "white"),  # Set legend background color
         legend.text = element_text(color = "black"),   # Set legend text color
-        legend.title = element_text(color = "black"),  # Set legend title color
+        legend.title = element_text(color = "black"),
+        legend.position = "none",# Set legend title color
+        theme(legend.position = "none"), 
         axis.title = element_text(color = "black"),    # Set axis title color
         axis.text = element_text(color = "black"),     # Set axis text color
         strip.text = element_text(color = "black")     # Set strip text color (facet labels)
@@ -530,13 +532,14 @@ plot_box_diagrams_normalized <- function(criteria_name,data_spr_normal,plot_file
       gg <- ggplot(spectral_data, aes(x = Model, y = SpectralDistance, fill = Model)) +
         geom_boxplot() +
         labs(x = "Model Types", y = "Spectral Distance", title = paste("Box Plot of Spectral Distances - ",criteria_name)) +
-        scale_fill_manual(values = color_palette) +
+        scale_fill_manual(values = color_palette_no_info) +
         theme_minimal()+theme(
           panel.background = element_blank(),   # Remove panel background color
           plot.background = element_rect(fill = "white"),  # Set plot background color
           legend.background = element_rect(fill = "white"),  # Set legend background color
           legend.text = element_text(color = "black"),   # Set legend text color
-          legend.title = element_text(color = "black"),  # Set legend title color
+          legend.title = element_text(color = "black"),
+          legend.position = "none", # Set legend title color
           axis.title = element_text(color = "black"),    # Set axis title color
           axis.text = element_text(color = "black"),     # Set axis text color
           strip.text = element_text(color = "black"),     # Set strip text color (facet labels)
@@ -586,6 +589,26 @@ get_minmax_normalized_values_models <- function(data_lists_all_graphs_x,data_lis
     {
       data_lists_all_graphs_x[[network]][[nullmodel]] <- (data_lists_all_graphs_x[[network]][[nullmodel]] - min_value) / (max_value - min_value)
       data_lists_all_graphs_y[[network]][[nullmodel]] <- (data_lists_all_graphs_y[[network]][[nullmodel]] - min_value_laplacian) / (max_value_laplacian - min_value_laplacian)
+      
+    }
+    
+  }
+  return(list(x_values=data_lists_all_graphs_x,y_values=data_lists_all_graphs_y))
+}
+get_iqr_normalized_values_models <- function(data_lists_all_graphs_x,data_lists_all_graphs_y)
+{
+  for (network in names(data_lists_all_graphs_x)) {
+    for(nullmodel in names(data_lists_all_graphs_x[[network]]))
+    {
+      q1_vector_adj <- quantile(data_lists_all_graphs_x[[network]][[nullmodel]],0.25)# Find the minimum value in the current vector
+      q3_vector_adj <- quantile(data_lists_all_graphs_x[[network]][[nullmodel]], 0.75)
+      q1_vector_lap <- quantile(data_lists_all_graphs_y[[network]][[nullmodel]],0.25)# Find the minimum value in the current vector
+      q3_vector_lap <- quantile(data_lists_all_graphs_y[[network]][[nullmodel]], 0.75)
+      iqr_vector_adj <- q3_vector_adj - q1_vector_adj
+      iqr_vector_lap <- q3_vector_lap - q1_vector_lap
+      
+      data_lists_all_graphs_x[[network]][[nullmodel]] <- (data_lists_all_graphs_x[[network]][[nullmodel]] - q1_vector_adj) / (iqr_vector_adj)
+      data_lists_all_graphs_y[[network]][[nullmodel]] <- (data_lists_all_graphs_y[[network]][[nullmodel]] - q1_vector_lap) / (iqr_vector_lap)
       
     }
     
@@ -840,6 +863,11 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
     result <- get_covariance_normalized_values(data_lists_all_graphs_x,data_lists_all_graphs_y)
     string_needer <- "Covariance_Allnetworks"
   }
+  else if(option=="IQR")
+  {
+    result <- get_iqr_normalized_values_models(data_lists_all_graphs_x,data_lists_all_graphs_y)
+    string_needer <- "IQR_AllNetworks"
+  }
   x_values_normalized <- result$x_values
   y_values_normalized <- result$y_values
   df <- data.frame(
@@ -867,8 +895,8 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
           data.frame(
             "Network" = network,
             "Model" = nullmodel,
-            "Adjacency_value" = mean(x_values_normalized[[network]][[nullmodel]]),
-            "Laplacian_value" = mean(y_values_normalized[[network]][[nullmodel]])
+            "Adjacency_value" = median(x_values_normalized[[network]][[nullmodel]]),
+            "Laplacian_value" = median(y_values_normalized[[network]][[nullmodel]])
           )
         )
       }
@@ -882,8 +910,8 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
           data.frame(
             "Network" = network,
             "Model" = nullmodel,
-            "Adjacency_value" = mean(x_values_normalized[[network]][[nullmodel]]),
-            "Laplacian_value" = mean(y_values_normalized[[network]][[nullmodel]])
+            "Adjacency_value" = median(x_values_normalized[[network]][[nullmodel]]),
+            "Laplacian_value" = median(y_values_normalized[[network]][[nullmodel]])
           )
         )
       }
@@ -895,19 +923,19 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
     gg <- ggplot(data = df, aes(x = `Adjacency_value`, fill = `Model`)) +
       geom_histogram(binwidth = binwidth, position = "identity",boundary = 0) +  # Adjust the binwidth as needed
       labs(
-        title = paste0(paste0("Histogram of Values by Model - Weighted - Adjacency - ",option), " - Criteria"),
+        title = paste0(paste0("Histogram - Weighted - Adjacency - ",option), " Criteria"),
         x = "Value",
         y = "Frequency"
       ) +
-      scale_fill_manual(values = color_palette)+
+      scale_fill_manual(values = color_palette_no_info)+
       facet_wrap(~Model, ncol=max(1,ceiling(sqrt(length(unique(df_not_weighted$Model))))),scales="free")+
       theme(strip.text = element_text(size = 12)) +  # Adjust strip text size
       theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+      theme(legend.position = "none")+
       scale_x_continuous(
         breaks = seq(0, 1, by = sequence_divider_size),  # Set custom breaks at 0.05 intervals
         limits = c(0, 1)  # Set the x-axis limits from 0 to 1
-      )+
-      geom_vline(xintercept = seq(0.05, 0.95, by = lines_divider_size), color = "lightgray", linetype = "dashed")
+      )
     
     folder_histogram_path <- file.path(histogram_path,paste0(string_needer,"Weighted.png"))
     ggsave(folder_histogram_path,gg)
@@ -915,19 +943,20 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
     gg <- ggplot(data = df, aes(x = `Laplacian_value`, fill = `Model`)) +
       geom_histogram(binwidth = binwidth, position = "identity",boundary = 0) +  # Adjust the binwidth as needed
       labs(
-        title = paste0(paste0("Histogram of Values by Model - Weighted - Laplacian - ",option), " - Criteria"),
+        title = paste0(paste0("Histogram - Weighted - Laplacian - ",option), " Criteria"),
         x = "Value",
         y = "Frequency"
       ) +
-      scale_fill_manual(values = color_palette)+
+      scale_fill_manual(values = color_palette_no_info)+
       facet_wrap(~Model, ncol=max(1,ceiling(sqrt(length(unique(df_not_weighted$Model))))),scales="free")+
       theme(strip.text = element_text(size = 12)) +  # Adjust strip text size
       theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+      theme(legend.position = "none")+
       scale_x_continuous(
         breaks = seq(0, 1, by = sequence_divider_size),  # Set custom breaks at 0.05 intervals
         limits = c(0, 1)  # Set the x-axis limits from 0 to 1
-      )+
-      geom_vline(xintercept = seq(0.05, 0.95, by = lines_divider_size), color = "lightgray", linetype = "dashed")
+      )
+      # geom_vline(xintercept = seq(0.05, 0.95, by = lines_divider_size), color = "lightgray", linetype = "dashed")
     
     folder_histogram_path <- file.path(histogram_path,paste0(string_needer,"Laplacian_Weighted.png"))
     ggsave(folder_histogram_path,gg)
@@ -935,19 +964,19 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
     gg <- ggplot(data = df_not_weighted, aes(x = `Adjacency_value`, fill = `Model`)) +
       geom_histogram(binwidth = binwidth, position = "identity",boundary = 0) +  # Adjust the binwidth as needed
       labs(
-        title =  paste0(paste0("Histogram of Values by Model - Not-Weighted - Adjacency - ",option), " - Criteria"),
+        title =  paste0(paste0("Histogram - Not-Weighted - Adjacency - ",option), " Criteria"),
         x = "Value",
         y = "Frequency"
       ) +
-      scale_fill_manual(values = color_palette)+
+      scale_fill_manual(values = color_palette_no_info)+
       facet_wrap(~Model, ncol=max(1,ceiling(sqrt(length(unique(df_not_weighted$Model))))),scales="free_x")+
       theme(strip.text = element_text(size = 12)) +  # Adjust strip text size
       theme(axis.text.x = element_text(angle = 45, hjust = 1))  +
+      theme(legend.position = "none")+
       scale_x_continuous(
         breaks = seq(0, 1, by = sequence_divider_size),  # Set custom breaks at 0.05 intervals
         limits = c(0, 1)  # Set the x-axis limits from 0 to 1
-      )+
-      geom_vline(xintercept = seq(0.05, 0.95, by =lines_divider_size), color = "lightgray", linetype = "dashed")
+      )
     
     folder_histogram_path <- file.path(histogram_path,paste0(string_needer,"Adjacency_Notweighted.png"))
     ggsave(folder_histogram_path,gg)
@@ -955,19 +984,19 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
     gg <- ggplot(data = df_not_weighted, aes(x = `Laplacian_value`, fill = `Model`)) +
       geom_histogram(binwidth = binwidth, position = "identity",boundary = 0) +  # Adjust the binwidth as needed
       labs(
-        title =  paste0(paste0("Histogram of Values by Model - Not-Weighted - Laplacian - ",option), " - Criteria"),
+        title =  paste0(paste0("Histogram - Not-Weighted - Laplacian - ",option), " - Criteria"),
         x = "Value",
         y = "Frequency"
       ) +
-      scale_fill_manual(values = color_palette)+
+      scale_fill_manual(values = color_palette_no_info)+
       facet_wrap(~Model, ncol=max(1,ceiling(sqrt(length(unique(df_not_weighted$Model))))),scales="free")+
       theme(strip.text = element_text(size = 12)) +  # Adjust strip text size
       theme(axis.text.x = element_text(angle = 45, hjust = 1))  +
+      theme(legend.position = "none")+
       scale_x_continuous(
         breaks = seq(0, 1, by = sequence_divider_size),  # Set custom breaks at 0.05 intervals
         limits = c(0, 1)  # Set the x-axis limits from 0 to 1
-      )+
-      geom_vline(xintercept = seq(0.05, 0.95, by =lines_divider_size), color = "lightgray", linetype = "dashed")
+      )
     
     folder_histogram_path <- file.path(histogram_path,paste0(string_needer,"Laplacian_NotWeighted.png"))
     ggsave(folder_histogram_path,gg)
@@ -977,6 +1006,9 @@ plot_means_histogram <- function(data_lists_all_graphs_x,data_lists_all_graphs_y
 color_palette <- c("RND" = "#1f77b4", "SYTR" = "#ff7f0e", "SHUFFLE" = "#2ca02c", 
                    "VAZ" = "#d62728", "SWAP" = "#9467bd", "R2D" = "#8c564b", 
                    "MGEN" = "#e377c2", "DU_05" = "#7f7f7f")
+color_palette_no_info <- c("RND" = "#4b4bfd", "SYTR" = "#4b4bfd", "SHUFFLE" = "#4b4bfd", 
+                           "VAZ" = "#4b4bfd", "SWAP" = "#4b4bfd", "R2D" = "#4b4bfd", 
+                           "MGEN" = "#4b4bfd", "DU_05" = "#4b4bfd")
 datadir <- "data/"
 csv_directory <- "./data"
 
@@ -992,6 +1024,7 @@ print(file_names)
 ## If you want to specify a model, substitute this following line 
 ## by a vector of models locations in file system as shown below
 lnetw <- file_names
+# lnetw <- c("M_PL_051")
   #c("M_PL_001","M_PL_002","M_PL_003","M_PL_004","M_PL_005","M_PL_006","M_PL_007","M_PL_008","M_PL_009","M_PL_010","M_PL_011","M_PL_012","M_PL_013","M_PL_014","M_PL_016")
  
   #c("M_PL_007","M_PL_008","M_PL_009","M_PL_010","M_PL_011","M_PL_012","M_PL_013","M_PL_014","M_PL_016")
@@ -1184,12 +1217,13 @@ plot_clustering_spd_means(data_lists_all_graphs,data_lists_all_graphs_laplacian)
 plot_clustering_spd_means(data_lists_all_graphs,data_lists_all_graphs_laplacian,option="Covariance")
 plot_means_histogram(data_lists_all_graphs,data_lists_all_graphs_laplacian)
 plot_means_histogram(data_lists_all_graphs,data_lists_all_graphs_laplacian,option="Covariance")
+plot_means_histogram(data_lists_all_graphs,data_lists_all_graphs_laplacian,option="IQR")
 
-#min_max_normalization_all_distances(data_lists_all_graphs,maximum_spectral_distance_found,minimum_spectral_distance_found,"Adjacency")
-#min_max_normalization_all_distances(data_lists_all_graphs_laplacian,maximum_spectral_distance_found_laplacian,minimum_spectral_distance_found_laplacian,"Laplacian")
+min_max_normalization_all_distances(data_lists_all_graphs,maximum_spectral_distance_found,minimum_spectral_distance_found,"Adjacency")
+min_max_normalization_all_distances(data_lists_all_graphs_laplacian,maximum_spectral_distance_found_laplacian,minimum_spectral_distance_found_laplacian,"Laplacian")
 
-#iqr_normalization_all_distances(data_lists_all_graphs,"Adjacency")
-#iqr_normalization_all_distances(data_lists_all_graphs_laplacian,"Laplacian")
+iqr_normalization_all_distances(data_lists_all_graphs,"Adjacency")
+iqr_normalization_all_distances(data_lists_all_graphs_laplacian,"Laplacian")
 
 #iqr_normalization_all_distances_bymodeltype(data_lists_all_graphs,"Adjacency")
 #iqr_normalization_all_distances_bymodeltype(data_lists_all_graphs_laplacian,"Laplacian")

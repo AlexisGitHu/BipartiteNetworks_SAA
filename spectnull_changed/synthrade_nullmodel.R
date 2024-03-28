@@ -14,17 +14,26 @@
 #            Third number: 0 (Write links/tokens/probs evolution at numlinks folder. It slows down simulation)/ 0 do not append
 #
 # ROWS: Exporters, COLUMNS: Importers
-#library(devtools)
-#install_github("jgalgarra/kcorebip")
-# install.packages("../kcorebip", repos = NULL, type = "source")
+rm(list = ls())
+if (require("rstudioapi")) {
+  script_path <- rstudioapi::getSourceEditorContext()$path
+}
+script_directory <- dirname(script_path)
+setwd(script_directory)
+getwd()
+library(devtools)
+# install.packages("devtools")
+# install_github("jgalgarra/kcorebip")
+install.packages("C:/Users/Alexis/Documents/GitHub/BipartiteNetworks_SAA/kcorebip", repos = NULL, type = "source")
 library(kcorebip)
 library(ggplot2)
 library(patchwork)
 library(forcats)
+# install.packages("ggtext")
 
-#install.packages("installr")
-#library(installr)
-#install.Rtools()
+# install.packages("installr")
+# library(installr)
+# install.Rtools()
 
 ReadMatrix <- function(res_analysis){
   #result_analysis <- analyze_network(directory = dird, netw, guild_a = "Plant", guild_b = "Pollinator", only_NODF = TRUE)
